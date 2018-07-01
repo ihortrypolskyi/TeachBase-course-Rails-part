@@ -5,5 +5,10 @@
   <%= @train.number %>
 </p>
 
+<p>
+  <strong>Route name:</strong>
+  <%= @train.route ? @train.route.name : 'No route specified' %>
+</p>
+
 <%= link_to 'Edit', edit_train_path(@train) %> |
 <%= link_to 'Back', trains_path %>
