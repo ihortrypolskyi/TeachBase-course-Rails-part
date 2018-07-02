@@ -1,0 +1,33 @@
+<%= form_with(model: @carriage.becomes(Carriage)) do |form| %>
+  <%= render ' shared/errors', object: @carriage %>
+
+  <div class="field">
+    <%= form.label :number %>
+    <%= form.text_field :number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :train_id %>
+    <% if action_name == 'edit' %>
+      <%= form.select :train_id, [[ @carriage.train.number,  @carriage.train_id ]] %>
+    <% else %>
+      <%= form.collection_select :train_id, Train.order(:number), :id, :number, { prompt: 'Select train'} %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= form.label :type %>
+    <%= form.select :type, ([ (params.dig(:carriage, :type) || @carriage.type) ]) %>
+  </div>
+
+  <% (params.dig(:carriage, :type) || @carriage.type).constantize::SEAT_TYPES.each do |seat_type| %>
+    <div class="field">
+      <%= form.label seat_type %>
+      <%= form.range_field seat_type, in: 1..100 %>
+    </div>
+  <% end  %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

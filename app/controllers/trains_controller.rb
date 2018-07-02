@@ -64,6 +64,6 @@ class TrainsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def train_params
-      params.require(:train).permit(:number, :route_id)
+      params.require(:train).permit(:number, :route_id, :carriage_sorting )
     end
 end

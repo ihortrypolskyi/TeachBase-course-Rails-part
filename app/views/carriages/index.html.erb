@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Carriages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%= render partial: "carriage", collection: @carriages %>
+  </tbody>
+</table>
+
+<br>
+
+<% Carriage::TYPES.map(&:camelize).each do |carriage_type| %>
+  <%= link_to "New #{carriage_type}", new_carriage_path(carriage: { type: carriage_type }) %> |
+<% end %>

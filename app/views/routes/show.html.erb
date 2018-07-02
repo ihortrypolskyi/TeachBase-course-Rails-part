@@ -21,11 +21,11 @@
   <strong>List of route stations:</strong>
 
   <% if @route.railway_stations.any? %>
-    <% @route.railway_stations.each do |railway_station| %>
+    <% @route.railway_stations.ordered_by_position.each do |railway_station| %>
       <%= railway_station.title %>
     <% end %>
   <% else %>
-    No stations in the route
+    Route does not include stations
   <% end %>
 </p>
 

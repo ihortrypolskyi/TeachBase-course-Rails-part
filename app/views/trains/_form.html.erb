@@ -1,15 +1,5 @@
 <%= form_with(model: train) do |form| %>
-  <% if train.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(train.errors.count, "error") %> prohibited this train from being saved:</h2>
-
-      <ul>
-        <% train.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render ' shared/errors', object: train %>
 
   <div class="field">
     <%= form.label :number %>
@@ -17,7 +7,15 @@
   </div>
 
   <div class="field">
-    <%= form.collection_select :route_id, Route.order(:name), :id, :name %>
+    <%= form.collection_select :route_id, Route.order(:name), :id, :name, { prompt: 'Select route'} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :carriages_sorting %>
+    <span> ASC </span>
+    <%= form.radio_button :carriage_sorting, true %>
+    <span> DESC </span>
+    <%= form.radio_button :carriage_sorting, false %>
   </div>
 
   <div class="actions">

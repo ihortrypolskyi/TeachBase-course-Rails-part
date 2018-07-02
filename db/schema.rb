@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_15_155657) do
+ActiveRecord::Schema.define(version: 2018_07_02_131623) do
+
+  create_table "carriages", force: :cascade do |t|
+    t.integer "train_id"
+    t.string "type"
+    t.string "number"
+    t.integer "lower_seats"
+    t.integer "upper_seats"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "side_lower_seats"
+    t.integer "side_upper_seats"
+    t.integer "chair_seats"
+    t.integer "position"
+    t.index ["position"], name: "index_carriages_on_position"
+    t.index ["train_id"], name: "index_carriages_on_train_id"
+  end
 
   create_table "railway_stations", force: :cascade do |t|
     t.string "title"
@@ -23,6 +39,8 @@ ActiveRecord::Schema.define(version: 2018_06_15_155657) do
     t.integer "route_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "position"
+    t.index ["position"], name: "index_railway_stations_routes_on_position"
     t.index ["railway_station_id"], name: "index_railway_stations_routes_on_railway_station_id"
     t.index ["route_id"], name: "index_railway_stations_routes_on_route_id"
   end
@@ -52,6 +70,7 @@ ActiveRecord::Schema.define(version: 2018_06_15_155657) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "route_id"
     t.integer "current_station_id"
+    t.boolean "carriage_sorting"
     t.index ["current_station_id"], name: "index_trains_on_current_station_id"
     t.index ["route_id"], name: "index_trains_on_route_id"
   end

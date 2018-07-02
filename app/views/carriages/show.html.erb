@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @carriage.number %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @carriage.type %>
+</p>
+
+<p>
+  <strong>Train:</strong>
+  <%= @carriage.train.number %>
+</p>
+
+<% @carriage.type.constantize::SEAT_TYPES.each do |seat_type| %>
+  <p>
+    <strong><%= seat_type %></strong>
+    <%= @carriage.send(seat_type) %>
+  </p>
+<% end %>
+
+<p>
+  <strong>Position:</strong>
+  <%= @carriage.position ? @carriage.position : 'Not specified' %>
+</p>
+
+<%= link_to 'Edit', edit_carriage_path(@carriage) %> |
+<%= link_to 'Back', carriages_path %>
