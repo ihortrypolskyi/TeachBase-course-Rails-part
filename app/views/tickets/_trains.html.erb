@@ -1,0 +1,16 @@
+<% if @trains.any? %>
+  <strong>Found Trains:</strong>
+  <% @trains.each do |train| %>
+    train: <td><%= link_to train.number, train %></td>
+    <% train.rsrs_by_arrival_and_departure(@arrival_station&.id, @departure_station&.id)
+            .each do |railway_stations_route| %>
+      <p>
+        railway station: <%= railway_stations_route.railway_station.title || 'Not specified' %>|
+        arrival time: <%= railway_stations_route.arrival_time || 'Not specified' %>|
+        departure time: <%= railway_stations_route.departure_time || 'Not specified'%>
+      </p>
+    <% end %>
+  <% end %>
+<% else %>
+  No trains found
+<% end %>

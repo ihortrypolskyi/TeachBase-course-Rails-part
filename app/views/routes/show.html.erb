@@ -19,11 +19,26 @@
 
 <p>
   <strong>List of route stations:</strong>
-
   <% if @route.railway_stations.any? %>
-    <% @route.railway_stations.ordered_by_position.each do |railway_station| %>
-      <%= railway_station.title %>
-    <% end %>
+    <table>
+      <thead>
+        <tr>
+          <td>name</td>
+          <td>position</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @route.railway_stations.ordered_by_position.each do |railway_station| %>
+          <tr>
+            <td><%= railway_station.title %></td>
+            <td>
+              <%= render partial: 'railway_stations/position_form',
+                         locals: {route: @route, railway_station: railway_station} %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
     Route does not include stations
   <% end %>

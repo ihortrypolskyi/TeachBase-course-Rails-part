@@ -7,14 +7,14 @@
 
 <p>
   <strong>Route name:</strong>
-  <%= @train.route ? @train.route.name : 'No route specified' %>
+  <%= @train.route ? @train.route.name : 'No route name specified' %>
 </p>
 
 <p>
   <strong>Carriages:</strong>
   <% if @train.carriages.any? %>
     <% @train.carriages.each do |carriage| %>
-      <%= link_to carriage.position, carriage_path(carriage) %>
+      <%= link_to carriage.position, train_carriage_path(@train, carriage) %>
     <% end %>
   <% else %>
     No carriages attached
@@ -38,6 +38,10 @@
     <% end  %>
     <br>
   <% end %>
+<% end %>
+
+<% Carriage::TYPES.map(&:camelize).each do |carriage_type| %>
+  <%= link_to "New #{carriage_type}", new_train_carriage_path(@train, carriage: { type: carriage_type }) %> |
 <% end %>
 
 <%= link_to 'Edit', edit_train_path(@train) %> |

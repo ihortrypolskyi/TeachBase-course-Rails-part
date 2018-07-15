@@ -1,0 +1,8 @@
+<%= form_with url: "/railway_stations/#{railway_station.id}/update_position", method: :patch do |form| %>
+  <%= render ' shared/errors', object: railway_station.railway_stations_routes.first %>
+
+  <%= form.hidden_field :route_id, value: route.id %>
+  <%= form.hidden_field :id, value: railway_station.id %>
+  <%= form.number_field :position, min: 1, value: railway_station.position_at(route) %>
+  <%= form.submit %>
+<% end %>

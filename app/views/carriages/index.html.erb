@@ -14,9 +14,3 @@
     <%= render partial: "carriage", collection: @carriages %>
   </tbody>
 </table>
-
-<br>
-
-<% Carriage::TYPES.map(&:camelize).each do |carriage_type| %>
-  <%= link_to "New #{carriage_type}", new_carriage_path(carriage: { type: carriage_type }) %> |
-<% end %>

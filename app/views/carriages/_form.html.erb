@@ -1,4 +1,4 @@
-<%= form_with(model: @carriage.becomes(Carriage)) do |form| %>
+<%= form_for([@train, @carriage.becomes(Carriage)]) do |form| %>
   <%= render ' shared/errors', object: @carriage %>
 
   <div class="field">

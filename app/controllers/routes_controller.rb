@@ -1,6 +1,7 @@
-class RoutesController < ApplicationController
-  before_action :initialize_route, only: %i[ new ]
-  before_action :find_route, only: %i[ show edit update destroy ]
+  class RoutesController < ApplicationController
+  before_action :initialize_route, only: %i[new]
+  before_action :find_route, only: %i[show edit update destroy]
+  before_action :create_railway_stations_routes, only: %i[update]
 
   def index
     @routes = Route.all
@@ -17,6 +18,7 @@ class RoutesController < ApplicationController
   end
 
   def update
+    #byebug
     if @route.update(route_params)
       redirect_to @route, notice: 'Route updated'
     else
@@ -34,6 +36,20 @@ class RoutesController < ApplicationController
 
   private
 
+  def create_railway_stations_routes
+    railway_station_ids = params.dig(:route, :railway_station_ids)
+    if railway_station_ids.any?
+      railway_station_ids.delete('')
+
+      railway_station_ids.each do |railway_station_id|
+        byebug
+        railway_station = RailwayStation.find_by(railway_station_id)
+
+        RailwayStationsRoute.find_or_create_by(route: @route, railway_station: railway_station)
+      end
+    end
+  end
+
   def initialize_route
     @route = Route.new
   end
@@ -43,6 +59,6 @@ class RoutesController < ApplicationController
   end
 
   def route_params
-    params.require(:route).permit(:name)
+    params.require(:route).permit(:name, railway_station_ids: [])
   end
 end

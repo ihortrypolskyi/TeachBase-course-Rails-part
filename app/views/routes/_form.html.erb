@@ -6,7 +6,14 @@
     <%= form.text_field :name %>
   </div>
 
+  <div class="field">
+    <%= form.label :railway_stations  %>
+    <%= form.collection_select(:railway_station_ids, RailwayStation.order(:title), :id, :title, { prompt: ('Select stations')}, {multiple: true}) %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
+
+

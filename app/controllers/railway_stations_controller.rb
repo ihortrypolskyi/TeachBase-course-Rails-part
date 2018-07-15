@@ -1,5 +1,5 @@
 class RailwayStationsController < ApplicationController
-  before_action :set_railway_station, only: %i[ show edit update destroy ]
+  before_action :set_railway_station, only: %i[show edit update destroy update_position]
 
   # GET /railway_stations or /railway_stations.json
   def index
@@ -47,6 +47,18 @@ class RailwayStationsController < ApplicationController
     end
   end
 
+  def update_position
+    @route = Route.find(params[:route_id])
+
+    respond_to do |format|
+      if @railway_station.update_position(@route, params[:position])
+        format.html { redirect_to @route, notice: "Railway station was successfully updated." }
+      else
+        format.html { render'routes/show', status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /railway_stations/1 or /railway_stations/1.json
   def destroy
     @railway_station.destroy
@@ -64,6 +76,6 @@ class RailwayStationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def railway_station_params
-      params.require(:railway_station).permit(:title)
+      params.require(:railway_station).permit(:title, :position, :route_id)
     end
 end

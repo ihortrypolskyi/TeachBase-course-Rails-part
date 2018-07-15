@@ -1,5 +1,6 @@
 class CarriagesController < ApplicationController
-  before_action :set_carriage, only: %i[ show edit update destroy ]
+  before_action :set_train, only: %i[new create]
+  before_action :set_carriage, only: %i[show edit update destroy]
 
   def index
     @carriages = Carriage.all
@@ -16,22 +17,19 @@ class CarriagesController < ApplicationController
   end
 
   def create
-    @carriage = Carriage.new(train_params)
+    @carriage = @train.carriages.new(carriage_params)
 
-    respond_to do |format|
-      if @carriage.save
-        format.html { redirect_to carriage_path(@carriage), notice: "Carriage was successfully created." }
-        format.json { render :show, status: :created, location: @carriage }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @carriage.errors, status: :unprocessable_entity }
-      end
+    if @carriage.save
+      #redirect_to carriage_path(@carriage), notice: "Carriage was successfully created."
+      redirect_to @train, notice: "Carriage was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
     respond_to do |format|
-      if @carriage.update(train_params)
+      if @carriage.update(carriage_params)
         format.html { redirect_to carriage_path(@carriage), notice: "Carriage was successfully updated." }
         format.json { render :show, status: :ok, location: @carriage }
       else
@@ -50,11 +48,18 @@ class CarriagesController < ApplicationController
   end
 
   private
+
   def set_carriage
     @carriage = Carriage.find(params[:id]).becomes(Carriage)
   end
 
-  def train_params
+  def set_train
+    return unless params[:train_id]
+
+    @train =  Train.find(params[:train_id])
+  end
+
+  def carriage_params
     params.require(:carriage).permit(
       :number, :type, :upper_seats, :lower_seats, :side_lower_seats, :side_upper_seats, :chair_seats, :train_id
     )

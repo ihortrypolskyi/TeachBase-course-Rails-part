@@ -1,0 +1,9 @@
+<p>
+  <%= form_with url: "/tickets/search", method: :get do |form| %>
+    <%= form.collection_select :arrival_station, RailwayStation.order(:title),
+                               :id, :title, { prompt: (@arrival_station&.title || 'Arrival station')} %>
+    <%= form.collection_select :departure_station, RailwayStation.order(:title),
+                               :id, :title, { prompt: (@departure_station&.title || 'Departure station')} %>
+    <%= form.submit 'Find tickets' %>
+  <% end %>
+</p>

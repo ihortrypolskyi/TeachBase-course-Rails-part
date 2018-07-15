@@ -1,0 +1,8 @@
+<%= render 'form' %>
+<p>
+  <% if defined?(@trains) %>
+    <%= render partial: 'trains', trains: @trains %>
+  <% else %>
+    Select arrival and departure stations
+  <% end %>
+</p>
